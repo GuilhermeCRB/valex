@@ -15,5 +15,7 @@ export default async function validateBlock(req: Request, res: Response, next: N
     dayjs.extend(customParseFormat);
     if(today.isAfter(dayjs(card.expirationDate, "MM/YY"), "month")) return res.status(400).send(`Card expired in ${card.expirationDate}`);
 
+    if(card.isBlocked) return res.status(400).send("Card is already blocked");
+
     next();
 }

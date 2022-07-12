@@ -18,8 +18,6 @@ export async function createCard(req: Request, res: Response) {
 
 export async function activateCard(req: Request, res: Response) {
     const { id, cardPassword }: { id: number, cardPassword: string } = req.body;
-    if (+cardPassword < 1000 || +cardPassword > 9999) return res.status(422).send("Password must be in four numbers format");
-
     const { securityCode }: { securityCode: string } = res.locals.card;
 
     const cardData = cardsService.buildCardData(cardPassword, securityCode);

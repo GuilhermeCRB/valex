@@ -3,6 +3,8 @@ import Cryptr from 'cryptr';
 import * as paymentRepository from '../../repositories/paymentRepository.js';
 import * as rechargeRepository from '../../repositories/rechargeRepository.js';
 
+import { calculateBalance } from '../../utils/calculateBalance.js';
+
 export function buildCardData(cardPassword: string, securityCode: string) {
     const password = encryptPassword(cardPassword);
 
@@ -22,16 +24,6 @@ export async function buildHistoric(cardId: number) {
     const balance = calculateBalance(transactions, recharges);
 
     return buildHistoricData(balance, transactions, recharges);
-}
-
-function calculateBalance(transactions: paymentRepository.PaymentWithBusinessName[], recharges: rechargeRepository.Recharge[]) {
-    let transactionsFullAmount = 0;
-    let rechargesFullAmount = 0;
-
-    transactions.forEach(transaction => transactionsFullAmount += transaction.amount);
-    recharges.forEach(recharge => rechargesFullAmount += recharge.amount);
-
-    return rechargesFullAmount - transactionsFullAmount;
 }
 
 function buildHistoricData(balance: number, transactions: paymentRepository.PaymentWithBusinessName[], recharges: rechargeRepository.Recharge[]) {

@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 
 import * as employeesService from '../services/employeesService.js';
 import * as cardRepository from '../../repositories/cardRepository.js';
+import * as paymentRepository from '../../repositories/paymentRepository.js';
+
 
 export async function activateCard(req: Request, res: Response) {
     const { id, cardPassword }: { id: number, cardPassword: string } = req.body;
@@ -35,5 +37,13 @@ export async function unblockCard(req: Request, res: Response) {
 
     await cardRepository.update(id, {isBlocked: false});
     
+    return res.sendStatus(200);
+}
+
+export async function pay(req: Request, res: Response) {
+    const {cardId, businessId, amount}: {cardId: number, businessId: number, amount: number} = req.body;
+
+    await paymentRepository.insert({cardId, businessId, amount});
+
     return res.sendStatus(200);
 }

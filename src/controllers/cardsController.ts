@@ -26,3 +26,11 @@ export async function activateCard(req: Request, res: Response) {
 
     res.sendStatus(200);
 }
+
+export async function getHistoric(req: Request, res: Response) {
+    const { cardId }: { cardId: number } = req.body;
+
+    const historic = await cardsService.buildHistoric(cardId);
+
+    return res.status(200).send(historic);
+}

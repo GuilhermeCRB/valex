@@ -6,7 +6,7 @@ import { Employee } from '../../repositories/employeeRepository.js';
 
 import { TransactionTypes } from '../../repositories/cardRepository.js';
 
-export async function generateCardInfo(employee: Employee, type: TransactionTypes) {
+export function generateCardInfo(employee: Employee, type: TransactionTypes) {
     const { fullName, id } = employee;
 
     const number = faker.finance.creditCardNumber('visa');

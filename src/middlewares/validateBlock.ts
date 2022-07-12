@@ -17,5 +17,7 @@ export default async function validateBlock(req: Request, res: Response, next: N
 
     if(card.isBlocked) return res.status(400).send("Card is already blocked");
 
+    res.locals.card = card;
+
     next();
 }

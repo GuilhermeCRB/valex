@@ -3,7 +3,7 @@ import Cryptr from "cryptr";
 import { Request, Response, NextFunction } from "express";
 
 export default async function validateCVV(req: Request, res: Response, next: NextFunction) {
-    const { CVV }: { id: number, CVV: string } = req.body;
+    const { CVV }: { CVV: string } = req.body;
     const { securityCode }: { securityCode: string } = res.locals.card;
 
     const cardCVV = decryptCVV(securityCode);

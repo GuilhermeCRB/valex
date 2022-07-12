@@ -6,6 +6,7 @@ import validateBlock from "../middlewares/validateBlock.js";
 import validateCard from "../middlewares/validateCard.js";
 import validateCardId from "../middlewares/validateCardId.js";
 import validateEmployee from "../middlewares/validateEmployee.js";
+import validatePassword from "../middlewares/validatePassword.js";
 import validateCVV from "../middlewares/validatesCVV.js";
 
 const cardsRouter = Router();
@@ -13,6 +14,6 @@ const cardsRouter = Router();
 cardsRouter.get("/cards/historic", validateCardId, getHistoric);
 cardsRouter.post("/cards", validateApiKey, validateEmployee, createCard);
 cardsRouter.put("/cards", validateCard, validateCVV, activateCard);
-cardsRouter.put("/cards/block", validateBlock, blockCard);
+cardsRouter.put("/cards/block", validateBlock, validatePassword, blockCard);
 
 export default cardsRouter;

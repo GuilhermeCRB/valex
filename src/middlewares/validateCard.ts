@@ -16,6 +16,8 @@ export default async function validateCard(req: Request, res: Response, next: Ne
     dayjs.extend(customParseFormat);
     if(today.isAfter(dayjs(card.expirationDate, "MM/YY"), "month")) return res.status(400).send(`Card expired in ${card.expirationDate}`);
 
+    if(card.password) return res.status(400).send("Card was already activated");
+
     res.locals.card = card;
     
     next();

@@ -2,6 +2,8 @@ import { faker } from '@faker-js/faker';
 import Cryptr from 'cryptr';
 import dayjs from "dayjs";
 
+import { Response } from "express";
+
 import { Employee } from '../../repositories/employeeRepository.js';
 
 import { TransactionTypes } from '../../repositories/cardRepository.js';
@@ -59,4 +61,10 @@ function calculateExpirationDate() {
     const today = dayjs();
 
     return dayjs(today).add(5, "year").format("MM/YY");
+}
+
+export function encryptPassword(cardPassword: string){
+    const cryptr = new Cryptr(process.env.SECRET_KEY);
+
+    return cryptr.encrypt(cardPassword);
 }

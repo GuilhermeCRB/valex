@@ -17,9 +17,12 @@ export async function createCard(req: Request, res: Response) {
 }
 
 export async function activateCard(req: Request, res: Response) {
-    const { id }: { id: number } = req.body;
-    const CVV = "a16b58c6b58ed01749c65c6b066cb20e20eb52179bf9f5a693f0d705dc26d5f6c2817a4e3427d472bda1b7628c243bbe599f77088439d7c90fd69587ea64385e0838f4eaae418f71c8fbfcbde305d6efdcf2673339e7d482edf28a845069f9d5a86092"
-    const password = "aaa";
+    const { id, cardPassword }: { id: number, cardPassword: string } = req.body;
+    if(+cardPassword < 1000 || +cardPassword > 9999) return res.status(422).send("Password must be in four numbers format");
+
+    const CVV = "a16b58c6b58ed01749c65c6b066cb20e20eb52179bf9f5a693f0d705dc26d5f6c2817a4e3427d472bda1b7628c243bbe599f77088439d7c90fd69587ea64385e0838f4eaae418f71c8fbfcbde305d6efdcf2673339e7d482edf28a845069f9d5a86092";
+    const password = cardsService.encryptPassword(cardPassword);
+
     const cardData = { securityCode: CVV, password, isBlocked: false };
 
     await cardRepository.update(id, cardData);

@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker';
+import Cryptr from 'cryptr';
 import dayjs from "dayjs";
 
 import { TransactionTypes } from '../../repositories/cardRepository.js';
@@ -10,7 +11,7 @@ export async function generateCardInfo(employeeId: number, type: TransactionType
 
     const number = faker.finance.creditCardNumber('visa');
     const cardholderName = manipulateName(fullName);
-    const securityCode = faker.finance.creditCardCVV();
+    const securityCode = generateEncryptedCVV();
     const expirationDate = calculateExpirationDate();
 
     return {
@@ -45,6 +46,13 @@ function manipulateName(fullName: string){
     });
 
     return cardholderNameArray.join(" ");
+}
+
+function generateEncryptedCVV(){
+    const cryptr = new Cryptr(process.env.SECRET_KEY);
+    const CVV = faker.finance.creditCardCVV();
+
+    return cryptr.encrypt(CVV);
 }
 
 function calculateExpirationDate(){

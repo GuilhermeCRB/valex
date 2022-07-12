@@ -26,7 +26,13 @@ export async function generateCardInfo(employeeId: number, type: TransactionType
 }
 
 function manipulateName(fullName: string){
-    const nameArray = fullName.toUpperCase().split(" ");
+    const nameArray = fullName.toUpperCase().split(" ").filter((name, i) => {
+        if(name.length > 2 || i === 0 || i === name.length-1){
+            return true;
+        }else{
+            return false;
+        }
+    }); 
     const firstName = nameArray[0];
     const lastName = nameArray[nameArray.length - 1];
 

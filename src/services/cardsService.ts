@@ -63,7 +63,13 @@ function calculateExpirationDate() {
     return dayjs(today).add(5, "year").format("MM/YY");
 }
 
-export function encryptPassword(cardPassword: string){
+export function buildCardData(cardPassword: string, securityCode: string){
+    const password = encryptPassword(cardPassword);
+
+    return { securityCode, password, isBlocked: false };
+}
+
+function encryptPassword(cardPassword: string){
     const cryptr = new Cryptr(process.env.SECRET_KEY);
 
     return cryptr.encrypt(cardPassword);

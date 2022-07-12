@@ -34,3 +34,11 @@ export async function getHistoric(req: Request, res: Response) {
 
     return res.status(200).send(historic);
 }
+
+export async function blockCard(req: Request, res: Response) {
+    const { id }: { id: number } = req.body;
+
+    await cardRepository.update(id, {isBlocked: true});
+    
+    return res.sendStatus(200);
+}
